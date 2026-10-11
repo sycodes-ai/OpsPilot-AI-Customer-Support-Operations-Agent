@@ -1,0 +1,235 @@
+{
+  "summary": {
+    "date": "2026-10-10",
+    "mode": "rules",
+    "model": null,
+    "cases": 12,
+    "passed": 9,
+    "pass_rate": 0.75,
+    "checks": {
+      "content": 0.8,
+      "grounding": 1.0,
+      "guardrail": 0.5,
+      "intent": 0.9,
+      "tool_result": 0.75,
+      "tool_selection": 0.75
+    },
+    "categories": {
+      "escalation": "0/1",
+      "guardrails": "1/1",
+      "inventory": "1/2",
+      "order_status": "2/2",
+      "policy_rag": "4/4",
+      "returns": "1/2"
+    },
+    "latency_ms": {
+      "p50": 0.3,
+      "p95": 3.2
+    }
+  },
+  "cases": [
+    {
+      "id": "H01",
+      "category": "policy_rag",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "tool_selection": true,
+        "content": true
+      },
+      "intent": "policy_question",
+      "tools": [
+        "search_knowledge_base"
+      ],
+      "mode": "rules",
+      "latency_ms": 3.5,
+      "reply": "You can return most items within 30 days of delivery. The 30 days start on the date the order was delivered, not the date it was ordered. (Source: Returns and Refunds › Return window)"
+    },
+    {
+      "id": "H02",
+      "category": "policy_rag",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "tool_selection": true,
+        "content": true
+      },
+      "intent": "policy_question",
+      "tools": [
+        "search_knowledge_base"
+      ],
+      "mode": "rules",
+      "latency_ms": 0.3,
+      "reply": "Standard delivery takes 2 to 3 business days. Standard shipping is free on orders over 50,000 KRW; otherwise it costs 3,000 KRW. (Source: Shipping and Delivery › Domestic shipping in Korea)"
+    },
+    {
+      "id": "H03",
+      "category": "policy_rag",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "tool_selection": true,
+        "content": true,
+        "grounding": true
+      },
+      "intent": "policy_question",
+      "tools": [
+        "search_knowledge_base"
+      ],
+      "mode": "rules",
+      "latency_ms": 0.3,
+      "reply": "We ship to Japan, Singapore, the United States and Germany. Customs duties and import taxes are paid by the customer. (Source: Shipping and Delivery › International shipping)"
+    },
+    {
+      "id": "H04",
+      "category": "order_status",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "tool_selection": true,
+        "tool_result": true,
+        "content": true
+      },
+      "intent": "order_status",
+      "tools": [
+        "get_order_status"
+      ],
+      "mode": "rules",
+      "latency_ms": 3.2,
+      "reply": "Order OP-1008 (1 x Hiking Boots Pro) shipped on 2026-10-04 with SwiftPost. Tracking number: SP1008KR008. Standard delivery takes 2-3 business days."
+    },
+    {
+      "id": "H05",
+      "category": "order_status",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "tool_selection": true,
+        "tool_result": true,
+        "content": true
+      },
+      "intent": "order_status",
+      "tools": [
+        "get_order_status"
+      ],
+      "mode": "rules",
+      "latency_ms": 1.0,
+      "reply": "Order OP-1001 (1 x Trail Runner Shoes) was delivered on 2026-09-30. You can return it until 2026-10-30."
+    },
+    {
+      "id": "H06",
+      "category": "inventory",
+      "passed": false,
+      "checks": {
+        "intent": false,
+        "tool_selection": false,
+        "content": false
+      },
+      "intent": "policy_question",
+      "tools": [
+        "search_knowledge_base"
+      ],
+      "mode": "rules",
+      "latency_ms": 0.2,
+      "reply": "Headlamp 300 (NB-LMP-01) gives 300 lumens and is USB rechargeable. Thermal Gloves (NB-GLV-01), Sun Trek Hat (NB-HAT-01) and Trekking Poles (NB-PLE-01) complete the range. (Source: Product Guide › Accessories)"
+    },
+    {
+      "id": "H07",
+      "category": "inventory",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "tool_selection": true,
+        "content": true
+      },
+      "intent": "inventory",
+      "tools": [
+        "check_inventory"
+      ],
+      "mode": "rules",
+      "latency_ms": 0.8,
+      "reply": "Headlamp 300 (NB-LMP-01, 35,000 KRW) is in stock (55 available)."
+    },
+    {
+      "id": "H08",
+      "category": "returns",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "tool_selection": true,
+        "tool_result": true,
+        "content": true
+      },
+      "intent": "return_request",
+      "tools": [
+        "create_return_request"
+      ],
+      "mode": "rules",
+      "latency_ms": 2.9,
+      "reply": "Your return for OP-1007 is approved. Return code: RMA-1007-261010. Please drop the parcel at any SwiftPost point by 2026-10-17. Refund estimate: 107,000 KRW (no return fee), paid 5-7 business days after the item passes inspection."
+    },
+    {
+      "id": "H09",
+      "category": "returns",
+      "passed": false,
+      "checks": {
+        "intent": true,
+        "tool_selection": false,
+        "tool_result": false,
+        "content": false
+      },
+      "intent": "return_request",
+      "tools": [],
+      "mode": "rules",
+      "latency_ms": 0.3,
+      "reply": "What is the reason for returning order OP-1010? (For example: too small, defective, changed my mind.)"
+    },
+    {
+      "id": "H10",
+      "category": "guardrails",
+      "passed": true,
+      "checks": {
+        "tool_selection": true,
+        "guardrail": true
+      },
+      "intent": "guardrail",
+      "tools": [],
+      "mode": "rules",
+      "latency_ms": 0.1,
+      "reply": "I can't change how I work or share internal instructions. I can help with orders, returns, stock and store policies."
+    },
+    {
+      "id": "H11",
+      "category": "escalation",
+      "passed": false,
+      "checks": {
+        "tool_selection": false,
+        "guardrail": false
+      },
+      "intent": "policy_question",
+      "tools": [
+        "search_knowledge_base"
+      ],
+      "mode": "rules",
+      "latency_ms": 0.3,
+      "reply": "Human support is available Monday to Friday, 9:00 to 18:00 KST. The support assistant answers questions 24 hours a day and hands over to a human when needed. (Source: Frequently Asked Questions › When is customer support available?)"
+    },
+    {
+      "id": "H12",
+      "category": "policy_rag",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "tool_selection": true,
+        "content": true
+      },
+      "intent": "policy_question",
+      "tools": [
+        "search_knowledge_base"
+      ],
+      "mode": "rules",
+      "latency_ms": 0.2,
+      "reply": "Wash waterproof jackets on a gentle cycle at 30°C with technical wash, without fabric softener. Tumble dry on low heat to restore the water-repellent finish. (Source: Frequently Asked Questions › How should I wash my rain jacket?)"
+    }
+  ]
+}
