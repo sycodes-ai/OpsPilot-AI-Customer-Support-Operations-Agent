@@ -4,7 +4,7 @@
 
 OpsPilot is a customer-support agent for a demo online store. It answers policy questions from documents (RAG), looks up orders and stock through backend tools, starts returns under real business rules, refuses unsafe requests, hands difficult cases to a human, and records every step so it can be measured.
 
-**Live demo:** _add your URL after deploying (see [docs/deployment.md](docs/deployment.md))_ · All customers, emails and orders are synthetic.
+**Live demo:** https://opspilot-fybl.onrender.com (free hosting: the first load after a pause can take 30–60 seconds) · All customers, emails and orders are synthetic.
 
 ![OpsPilot chat with agent trace](docs/screenshot-chat.png)
 
